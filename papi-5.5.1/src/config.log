@@ -37,7 +37,6 @@ PATH: /sbin
 PATH: /bin
 PATH: /usr/games
 PATH: /usr/local/games
-PATH: /snap/bin
 
 
 ## ----------- ##
@@ -670,9 +669,9 @@ configure:3409: checking for sched.h
 configure:3416: result: yes
 configure:3438: checking for gethrtime
 configure:3495: gcc -o conftest  -g   conftest.c  >&5
-/tmp/ccvdataI.o: In function `main':
-/home/nunosilva/Documents/CPAR/papi-5.5.1/src/conftest.c:63: undefined reference to `gethrtime'
-/tmp/ccvdataI.o:(.data+0x0): undefined reference to `gethrtime'
+/tmp/cc5Bn3pZ.o: In function `main':
+/home/nunosilva/Documents/git/CPAR/papi-5.5.1/src/conftest.c:63: undefined reference to `gethrtime'
+/tmp/cc5Bn3pZ.o:(.data+0x0): undefined reference to `gethrtime'
 collect2: error: ld returned 1 exit status
 configure:3501: $? = 1
 configure: failed program was:
@@ -745,9 +744,9 @@ configure: failed program was:
 configure:3526: result: no
 configure:3438: checking for read_real_time
 configure:3495: gcc -o conftest  -g   conftest.c  >&5
-/tmp/cccU3qfJ.o: In function `main':
-/home/nunosilva/Documents/CPAR/papi-5.5.1/src/conftest.c:63: undefined reference to `read_real_time'
-/tmp/cccU3qfJ.o:(.data+0x0): undefined reference to `read_real_time'
+/tmp/ccekxav0.o: In function `main':
+/home/nunosilva/Documents/git/CPAR/papi-5.5.1/src/conftest.c:63: undefined reference to `read_real_time'
+/tmp/ccekxav0.o:(.data+0x0): undefined reference to `read_real_time'
 collect2: error: ld returned 1 exit status
 configure:3501: $? = 1
 configure: failed program was:
@@ -820,9 +819,9 @@ configure: failed program was:
 configure:3526: result: no
 configure:3438: checking for time_base_to_time
 configure:3495: gcc -o conftest  -g   conftest.c  >&5
-/tmp/cconyMxL.o: In function `main':
-/home/nunosilva/Documents/CPAR/papi-5.5.1/src/conftest.c:63: undefined reference to `time_base_to_time'
-/tmp/cconyMxL.o:(.data+0x0): undefined reference to `time_base_to_time'
+/tmp/ccGcW4I2.o: In function `main':
+/home/nunosilva/Documents/git/CPAR/papi-5.5.1/src/conftest.c:63: undefined reference to `time_base_to_time'
+/tmp/ccGcW4I2.o:(.data+0x0): undefined reference to `time_base_to_time'
 collect2: error: ld returned 1 exit status
 configure:3501: $? = 1
 configure: failed program was:
@@ -904,9 +903,9 @@ configure:3514: $? = 0
 configure:3526: result: yes
 configure:3438: checking for mach_absolute_time
 configure:3495: gcc -o conftest  -g   conftest.c  >&5
-/tmp/ccwCgEVT.o: In function `main':
-/home/nunosilva/Documents/CPAR/papi-5.5.1/src/conftest.c:64: undefined reference to `mach_absolute_time'
-/tmp/ccwCgEVT.o:(.data+0x0): undefined reference to `mach_absolute_time'
+/tmp/ccF2AhAb.o: In function `main':
+/home/nunosilva/Documents/git/CPAR/papi-5.5.1/src/conftest.c:64: undefined reference to `mach_absolute_time'
+/tmp/ccF2AhAb.o:(.data+0x0): undefined reference to `mach_absolute_time'
 collect2: error: ld returned 1 exit status
 configure:3501: $? = 1
 configure: failed program was:
@@ -989,9 +988,9 @@ configure:3514: $? = 0
 configure:3526: result: yes
 configure:3542: checking for dlopen and dlerror symbols in base system
 configure:3560: gcc -o conftest  -g   conftest.c  >&5
-/tmp/ccmSJ8KY.o: In function `main':
-/home/nunosilva/Documents/CPAR/papi-5.5.1/src/conftest.c:29: undefined reference to `dlopen'
-/home/nunosilva/Documents/CPAR/papi-5.5.1/src/conftest.c:29: undefined reference to `dlerror'
+/tmp/ccqG51nh.o: In function `main':
+/home/nunosilva/Documents/git/CPAR/papi-5.5.1/src/conftest.c:29: undefined reference to `dlopen'
+/home/nunosilva/Documents/git/CPAR/papi-5.5.1/src/conftest.c:29: undefined reference to `dlerror'
 collect2: error: ld returned 1 exit status
 configure:3566: $? = 1
 configure: failed program was:
@@ -1071,8 +1070,8 @@ conftest.c: In function 'main':
 conftest.c:2:36: warning: implicit declaration of function 'gettid' [-Wimplicit-function-declaration]
                  main() { pid_t a = gettid(); }
                                     ^
-/tmp/ccD1f3p8.o: In function `main':
-/home/nunosilva/Documents/CPAR/papi-5.5.1/src/conftest.c:2: undefined reference to `gettid'
+/tmp/ccCHiKhr.o: In function `main':
+/home/nunosilva/Documents/git/CPAR/papi-5.5.1/src/conftest.c:2: undefined reference to `gettid'
 collect2: error: ld returned 1 exit status
 configure:4456: $? = 1
 configure: failed program was:
@@ -1312,6 +1311,7 @@ config.status:730: creating testlib/Makefile.target
 config.status:730: creating ctests/Makefile.target
 config.status:730: creating ftests/Makefile.target
 config.status:833: creating config.h
+config.status:965: config.h is unchanged
 
 ## ---------------- ##
 ## Cache variables. ##

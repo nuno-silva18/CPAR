@@ -14,7 +14,7 @@ using namespace std;
 void OnMult(int m_ar, int m_br) 
 {
 	
-	SYSTEMTIME Time1, Time2;
+	SYSTEMTIME init_time, fin_time;
 	
 	char st[100];
 	double temp;
@@ -23,44 +23,102 @@ void OnMult(int m_ar, int m_br)
 	double *pha, *phb, *phc;
 	
 
-		
+	// Creation of the a and b matrixes, and result matrix c	
     pha = (double *)malloc((m_ar * m_ar) * sizeof(double));
 	phb = (double *)malloc((m_ar * m_ar) * sizeof(double));
 	phc = (double *)malloc((m_ar * m_ar) * sizeof(double));
 
-	for(i=0; i<m_ar; i++)
-		for(j=0; j<m_ar; j++)
+	// Initialization of matrix a
+	for(i = 0; i < m_ar; i++)
+		for(j = 0; j < m_ar; j++)
 			pha[i*m_ar + j] = (double)1.0;
 
-
-
-	for(i=0; i<m_br; i++)
-		for(j=0; j<m_br; j++)
+	// Initialization of matrix b
+	for(i = 0; i < m_br; i++)
+		for(j = 0; j < m_br; j++)
 			phb[i*m_br + j] = (double)(i+1);
 
+    init_time = clock();
 
-
-    Time1 = clock();
-
-	for(i=0; i<m_ar; i++)
-	{	for( j=0; j<m_br; j++)
+	for(i = 0; i < m_ar; i++)
+	{	for(j = 0; j < m_br; j++)
 		{	temp = 0;
-			for( k=0; k<m_ar; k++)
+			for(k = 0; k < m_ar; k++)
 			{	
-				temp += pha[i*m_ar+k] * phb[k*m_br+j];
+				temp+= pha[i*m_ar + k] * phb[k*m_br + j];
 			}
-			phc[i*m_ar+j]=temp;
+			phc[i*m_ar + j] = temp;
 		}
 	}
 
 
-    Time2 = clock();
-	sprintf(st, "Time: %3.3f seconds\n", (double)(Time2 - Time1) / CLOCKS_PER_SEC);
+    fin_time = clock();
+	sprintf(st, "Time: %3.3f seconds\n", (double)(fin_time - init_time) / CLOCKS_PER_SEC);
 	cout << st;
 
 	cout << "Result matrix: " << endl;
-	for(i=0; i<1; i++)
-	{	for(j=0; j<min(10,m_br); j++)
+	for(i = 0; i < 1; i++)
+	{	for(j = 0; j < min(10,m_br); j++)
+			cout << phc[j] << " ";
+	}
+	cout << endl;
+
+    free(pha);
+    free(phb);
+    free(phc);
+	
+	
+}
+
+void OnMultParallel(int m_ar, int m_br, int n_threads) 
+{
+	
+	SYSTEMTIME init_time, fin_time;
+	
+	char st[100];
+	double temp;
+	int i, j, k;
+
+	double *pha, *phb, *phc;
+	
+
+	// Creation of the a and b matrixes, and result matrix c	
+    pha = (double *)malloc((m_ar * m_ar) * sizeof(double));
+	phb = (double *)malloc((m_ar * m_ar) * sizeof(double));
+	phc = (double *)malloc((m_ar * m_ar) * sizeof(double));
+
+	// Initialization of matrix a
+	for(i = 0; i < m_ar; i++)
+		for(j = 0; j < m_ar; j++)
+			pha[i*m_ar + j] = (double)1.0;
+
+	// Initialization of matrix b
+	for(i = 0; i < m_br; i++)
+		for(j = 0; j < m_br; j++)
+			phb[i*m_br + j] = (double)(i+1);
+
+    init_time = clock();
+
+	#pragma omp parallel for num_threads(n_threads)
+	for(i = 0; i < m_ar; i++)
+	{	for(j = 0; j < m_br; j++)
+		{	temp = 0;
+			for(k = 0; k < m_ar; k++)
+			{	
+				temp+= pha[i*m_ar + k] * phb[k*m_br + j];
+			}
+			phc[i*m_ar + j] = temp;
+		}
+	}
+
+
+    fin_time = clock();
+	sprintf(st, "Time: %3.3f seconds\n", (double)(fin_time - init_time) / CLOCKS_PER_SEC);
+	cout << st;
+
+	cout << "Result matrix: " << endl;
+	for(i = 0; i < 1; i++)
+	{	for(j = 0; j < min(10,m_br); j++)
 			cout << phc[j] << " ";
 	}
 	cout << endl;
@@ -75,8 +133,111 @@ void OnMult(int m_ar, int m_br)
 
 void OnMultLine(int m_ar, int m_br)
 {
-    
-    
+	SYSTEMTIME init_time, fin_time;
+
+	char st[100];
+	double temp;
+	int i, j, k;
+
+	double *pha, *phb, *phc;
+
+	// Creation of the a and b matrixes, and result matrix c
+	pha = (double *)malloc((m_ar*m_ar) * sizeof(double));
+	phb = (double *)malloc((m_ar*m_ar) * sizeof(double));
+	phc = (double *)malloc((m_ar*m_ar) * sizeof(double));
+
+	for(i = 0; i < m_ar; i++)
+		for(j = 0; j < m_ar; j++)
+			pha[i*m_ar + j] = (double)1.0;
+
+	for(i = 0; i < m_br; i++)
+		for(j = 0; j < m_br; j++)
+			phb[i*m_br + j] = (double)(i+1);
+
+	for(i = 0; i < m_ar; i++)
+		for(j = 0; j < m_br; j++)
+			phc[i*m_ar + j] = (double)0.0;
+
+	init_time = clock();
+
+	for(i = 0; i < m_ar; i++) 
+	{	for(k = 0; k < m_ar; k++) 
+		{	for(j = 0; j < m_br; j++) 
+			{
+				phc[i*m_ar + j] += pha[i*m_ar + k] * phb[k*m_br + j];
+			}
+		}
+	}
+
+	fin_time = clock();
+	sprintf(st, "Time: %3.3f seconds\n", (double)(fin_time - init_time) / CLOCKS_PER_SEC);
+	cout << st;
+
+	cout << "Result matrix: " << endl;
+	for(i = 0; i < 1; i++)
+	{	for(j = 0; j < min(10,m_br); j++)
+			cout << phc[j] << " ";
+	}
+	cout << endl;
+
+    free(pha);
+    free(phb);
+    free(phc);
+}
+
+void OnMultLineParallel(int m_ar, int m_br, int n_threads)
+{
+	SYSTEMTIME init_time, fin_time;
+
+	char st[100];
+	double temp;
+	int i, j, k;
+
+	double *pha, *phb, *phc;
+
+	// Creation of the a and b matrixes, and result matrix c
+	pha = (double *)malloc((m_ar*m_ar) * sizeof(double));
+	phb = (double *)malloc((m_ar*m_ar) * sizeof(double));
+	phc = (double *)malloc((m_ar*m_ar) * sizeof(double));
+
+	for(i = 0; i < m_ar; i++)
+		for(j = 0; j < m_ar; j++)
+			pha[i*m_ar + j] = (double)1.0;
+
+	for(i = 0; i < m_br; i++)
+		for(j = 0; j < m_br; j++)
+			phb[i*m_br + j] = (double)(i+1);
+
+	for(i = 0; i < m_ar; i++)
+		for(j = 0; j < m_br; j++)
+			phc[i*m_ar + j] = (double)0.0;
+
+	init_time = clock();
+
+	#pragma omp parallel for num_threads(n_threads)
+	for(i = 0; i < m_ar; i++) 
+	{	for(k = 0; k < m_ar; k++) 
+		{	for(j = 0; j < m_br; j++) 
+			{
+				phc[i*m_ar + j] += pha[i*m_ar + k] * phb[k*m_br + j];
+			}
+		}
+	}
+
+	fin_time = clock();
+	sprintf(st, "Time: %3.3f seconds\n", (double)(fin_time - init_time) / CLOCKS_PER_SEC);
+	cout << st;
+
+	cout << "Result matrix: " << endl;
+	for(i = 0; i < 1; i++)
+	{	for(j = 0; j < min(10,m_br); j++)
+			cout << phc[j] << " ";
+	}
+	cout << endl;
+
+    free(pha);
+    free(phb);
+    free(phc);
 }
 
 
@@ -116,7 +277,7 @@ int main (int argc, char *argv[])
 {
 
 	char c;
-	int lin, col, nt=1;
+	int lin, col, n_threads = 1;
 	int op;
 	
 	int EventSet = PAPI_NULL;
@@ -145,10 +306,18 @@ int main (int argc, char *argv[])
 	do {
 		cout << endl << "1. Multiplication" << endl;
 		cout << "2. Line Multiplication" << endl;
+		cout << "3. Multiplication - Parallel Version" << endl;
+		cout << "4. Line Multiplication - Parallel Version" << endl;
 		cout << "Selection?: ";
 		cin >>op;
 		if (op == 0)
 			break;
+		
+		if (op > 2) {
+			printf("NUmber of threads ? ");
+			cin >> n_threads;
+		}
+		
 		printf("Dimensions: lins cols ? ");
    		cin >> lin >> col;
 
@@ -164,7 +333,12 @@ int main (int argc, char *argv[])
 				break;
 			case 2:
 				OnMultLine(lin, col);
-    
+				break;
+			case 3:
+				OnMultParallel(lin, col, n_threads);
+				break;
+			case 4:
+				OnMultLineParallel(lin, col, n_threads);
 				break;
 		}
 
