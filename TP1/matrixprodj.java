@@ -1,5 +1,4 @@
-public class matrixprodj {
-    
+public class matrixprodj {    
     public static void OnMult (int m_ar, int m_br) {
 
         long t_start, t_end; // Start and end times for the matrix multiplication algorithm
@@ -56,6 +55,56 @@ public class matrixprodj {
         System.out.println("");
     }
 
+    public static void OnMultLine(int m_ar, int m_br) {
+
+        long t_start, t_end; // Start and end times for the matrix multiplication algorithm
+        double ttime; // Total time it took the matrix multiplication algorithm to run
+
+        double temp;
+        int i, j, k;
+
+        double pha[] = new double[m_ar*m_ar];
+        double phb[] = new double[m_ar*m_ar];
+        double phc[] = new double[m_ar*m_ar];
+
+        for(i = 0; i < m_ar; i++)
+            for(j = 0; j < m_ar; j++)
+                pha[i*m_ar + j] = (double)1.0;
+        
+        for(i = 0; i < m_br; i++)
+            for(j = 0; j < m_br; j++)
+                phb[i*m_br + j] = (double)(i+1);
+
+        for(i = 0; i < m_ar; i++)
+            for(j = 0; j < m_br; j++)
+                phc[i*m_ar + j] = (double)0.0;
+
+        t_start = System.nanoTime();
+
+        for(i = 0; i < m_ar; i++) {
+            for(k = 0; k < m_ar; k++) {
+                for(j = 0; j < m_br; j++) {
+                    phc[i*m_ar + j] += pha[i * m_ar + k] * phb[k*m_br + j];
+                }
+            }
+        }
+
+        t_end = System.nanoTime();
+        ttime = (t_end - t_start) / 1000000000.0; // Convert from nanoseconds to seconds
+
+         System.out.println("Time: " + ttime + " seconds");
+
+         // Print out results
+
+        System.out.println("Result matrix: ");
+        for(i = 0; i < 1; i++) {
+            for(j = 0; j < Math.min(10, m_br); j++) {
+                System.out.print(phc[j] + " ");
+            }
+        }
+        System.out.println("");
+    }
+
     public static void main(String[] args) {
         int oper, m_size;
 
@@ -68,5 +117,7 @@ public class matrixprodj {
 
         if(oper == 0)
             OnMult(m_size, m_size);
+        if(oper == 1)
+            OnMultLine(m_size, m_size);
     }
 }

@@ -1,4 +1,4 @@
-//#include <omp.h>
+#include <omp.h>
 #include <stdio.h>
 #include <iostream>
 #include <iomanip>
@@ -10,7 +10,6 @@ using namespace std;
 
 #define SYSTEMTIME clock_t
 
- 
 void OnMult(int m_ar, int m_br) 
 {
 	
@@ -66,8 +65,6 @@ void OnMult(int m_ar, int m_br)
     free(pha);
     free(phb);
     free(phc);
-	
-	
 }
 
 void OnMultParallel(int m_ar, int m_br, int n_threads) 
@@ -97,7 +94,7 @@ void OnMultParallel(int m_ar, int m_br, int n_threads)
 		for(j = 0; j < m_br; j++)
 			phb[i*m_br + j] = (double)(i+1);
 
-    init_time = clock();
+    init_time = omp_get_wtime();
 
 	#pragma omp parallel for num_threads(n_threads)
 	for(i = 0; i < m_ar; i++)
@@ -112,8 +109,8 @@ void OnMultParallel(int m_ar, int m_br, int n_threads)
 	}
 
 
-    fin_time = clock();
-	sprintf(st, "Time: %3.3f seconds\n", (double)(fin_time - init_time) / CLOCKS_PER_SEC);
+    fin_time = omp_get_wtime();
+	sprintf(st, "Time: %3.3f seconds\n", (double)(fin_time - init_time));
 	cout << st;
 
 	cout << "Result matrix: " << endl;
@@ -125,9 +122,7 @@ void OnMultParallel(int m_ar, int m_br, int n_threads)
 
     free(pha);
     free(phb);
-    free(phc);
-	
-	
+    free(phc);	
 }
 
 
@@ -212,7 +207,7 @@ void OnMultLineParallel(int m_ar, int m_br, int n_threads)
 		for(j = 0; j < m_br; j++)
 			phc[i*m_ar + j] = (double)0.0;
 
-	init_time = clock();
+	init_time = omp_get_wtime();
 
 	#pragma omp parallel for num_threads(n_threads)
 	for(i = 0; i < m_ar; i++) 
@@ -224,8 +219,8 @@ void OnMultLineParallel(int m_ar, int m_br, int n_threads)
 		}
 	}
 
-	fin_time = clock();
-	sprintf(st, "Time: %3.3f seconds\n", (double)(fin_time - init_time) / CLOCKS_PER_SEC);
+	fin_time = omp_get_wtime();
+	sprintf(st, "Time: %3.3f seconds\n", (double)(fin_time - init_time));
 	cout << st;
 
 	cout << "Result matrix: " << endl;
@@ -277,7 +272,7 @@ int main (int argc, char *argv[])
 {
 
 	char c;
-	int lin, col, n_threads = 1;
+	int lin, col, n_threads = 1, nt=1;
 	int op;
 	
 	int EventSet = PAPI_NULL;
