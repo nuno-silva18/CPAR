@@ -76,8 +76,7 @@ void OnMultParallel(int m_ar, int m_br, int n_threads)
 	double temp;
 	int i, j, k;
 
-	double *pha, *phb, *phc;
-	
+	double *pha, *phb, *phc;	
 
 	// Creation of the a and b matrixes, and result matrix c	
     pha = (double *)malloc((m_ar * m_ar) * sizeof(double));
@@ -94,14 +93,14 @@ void OnMultParallel(int m_ar, int m_br, int n_threads)
 		for(j = 0; j < m_br; j++)
 			phb[i*m_br + j] = (double)(i+1);
 
-    init_time = omp_get_wtime();
+    init_time = clock();
 
-	#pragma omp parallel for num_threads(n_threads)
 	for(i = 0; i < m_ar; i++)
 	{	for(j = 0; j < m_br; j++)
 		{	temp = 0;
+			#pragma omp parallel for reduction (+:temp) num_threads(n_threads)
 			for(k = 0; k < m_ar; k++)
-			{	
+			{
 				temp+= pha[i*m_ar + k] * phb[k*m_br + j];
 			}
 			phc[i*m_ar + j] = temp;
@@ -109,8 +108,8 @@ void OnMultParallel(int m_ar, int m_br, int n_threads)
 	}
 
 
-    fin_time = omp_get_wtime();
-	sprintf(st, "Time: %3.3f seconds\n", (double)(fin_time - init_time));
+    fin_time = clock();
+	sprintf(st, "Time: %3.3f seconds\n", (double)(fin_time - init_time) / CLOCKS_PER_SEC);
 	cout << st;
 
 	cout << "Result matrix: " << endl;
@@ -207,20 +206,21 @@ void OnMultLineParallel(int m_ar, int m_br, int n_threads)
 		for(j = 0; j < m_br; j++)
 			phc[i*m_ar + j] = (double)0.0;
 
-	init_time = omp_get_wtime();
-
-	#pragma omp parallel for num_threads(n_threads)
+	init_time = clock();
+	
 	for(i = 0; i < m_ar; i++) 
 	{	for(k = 0; k < m_ar; k++) 
-		{	for(j = 0; j < m_br; j++) 
+		{	
+			#pragma omp parallel for num_threads(n_threads)
+			for(j = 0; j < m_br; j++) 
 			{
 				phc[i*m_ar + j] += pha[i*m_ar + k] * phb[k*m_br + j];
 			}
 		}
 	}
 
-	fin_time = omp_get_wtime();
-	sprintf(st, "Time: %3.3f seconds\n", (double)(fin_time - init_time));
+	fin_time = clock();
+	sprintf(st, "Time: %3.3f seconds\n", (double)(fin_time - init_time) / CLOCKS_PER_SEC);
 	cout << st;
 
 	cout << "Result matrix: " << endl;
