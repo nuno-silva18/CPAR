@@ -95,10 +95,10 @@ void OnMultParallel(int m_ar, int m_br, int n_threads)
 
     init_time = omp_get_wtime();
 
+	#pragma omp parallel for private(j, k, temp) num_threads(n_threads)
 	for(i = 0; i < m_ar; i++)
 	{	for(j = 0; j < m_br; j++)
 		{	temp = 0;
-			#pragma omp parallel for reduction (+:temp) num_threads(n_threads)
 			for(k = 0; k < m_ar; k++)
 			{
 				temp+= pha[i*m_ar + k] * phb[k*m_br + j];
@@ -208,12 +208,10 @@ void OnMultLineParallel(int m_ar, int m_br, int n_threads)
 
 	init_time = omp_get_wtime();
 	
-	
+	#pragma omp parallel for collapse(3) num_threads(n_threads)
 	for(i = 0; i < m_ar; i++) 
 	{	for(k = 0; k < m_ar; k++) 
-		{   
-			#pragma omp parallel for num_threads(n_threads)
-			for(j = 0; j < m_br; j++) 
+		{   for(j = 0; j < m_br; j++) 
 			{
 				phc[i*m_ar + j] += pha[i*m_ar + k] * phb[k*m_br + j];
 			}
