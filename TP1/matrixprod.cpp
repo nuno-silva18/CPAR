@@ -208,7 +208,7 @@ void OnMultLineParallel(int m_ar, int m_br, int n_threads)
 
 	init_time = omp_get_wtime();
 	
-	#pragma omp parallel for collapse(3) num_threads(n_threads)
+	#pragma omp parallel for private(k, j) num_threads(n_threads)
 	for(i = 0; i < m_ar; i++) 
 	{	for(k = 0; k < m_ar; k++) 
 		{   for(j = 0; j < m_br; j++) 
