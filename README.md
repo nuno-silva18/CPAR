@@ -29,3 +29,9 @@ Repository for the Parallel Computing class at FEUP.
 
 * Run your executable and follow the on-screen instructions:
   * ./YourExecutableName
+
+### Project hand-in
+
+* [Article](https://docs.google.com/document/d/1JTmKyVSGRf6zqPncvZoDRz9snzYGBzzjhTkhZsDi9Vw/edit?usp=sharing)
+
+* [Experiment results](https://docs.google.com/spreadsheets/d/1kowNG7NegDN3h9p3_S_ySrQKrBUykjoKgQozlmmgXDA/edit?usp=sharing)
