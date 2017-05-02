@@ -1,7 +1,6 @@
 #include <iostream>
 #include <stdio.h>
 #include <omp.h>
-#include <papi.h>
 #include <iomanip>
 #include <time.h>
 #include <bits/stdc++.h>
@@ -101,6 +100,7 @@ int main(int argc, const char* argv[]) {
         return 1;
     }
     
+    // Number of threads: Number of threads running in the parallel version of the algorithm
     int n_threads;
     if(alg_type == 1) {
         if(argc < 4) {
@@ -113,7 +113,6 @@ int main(int argc, const char* argv[]) {
             return 1;
         }
     }
-    
 
     // i: Exponent for n = 2^i
     long long exp = stoll(argv[2]);
@@ -124,64 +123,14 @@ int main(int argc, const char* argv[]) {
 
     long long n = pow(2, exp);
 
-    // PAPI Setup
-	int EventSet = PAPI_NULL;
-  	long long values[2];
-  	int ret;
-  	
-	ret = PAPI_library_init( PAPI_VER_CURRENT );
-	if ( ret != PAPI_VER_CURRENT )
-		cout << "FAIL" << endl;
-
-
-	ret = PAPI_create_eventset(&EventSet);
-	if (ret != PAPI_OK) 
-		cout << "ERRO: create eventset" << endl;
-
-
-	ret = PAPI_add_event(EventSet,PAPI_L1_DCM );
-	if (ret != PAPI_OK) 
-		cout << "ERRO: PAPI_L1_DCM" << endl;
-
-
-	ret = PAPI_add_event(EventSet,PAPI_L2_DCM);
-	if (ret != PAPI_OK)
-		cout << "ERRO: PAPI_L2_DCM" << endl;
-
-
-	// PAPI Start
-	ret = PAPI_start(EventSet);
-	if (ret != PAPI_OK) 
-		cout << "ERRO: Start PAPI" << endl;
-
     switch(alg_type) {
         case 0:
             sieve_sequential(n);
+            return 0;
             break;
         case 1:
             sieve_parallel(n, n_threads);
+            return 0;
             break;
     }
-
-    // PAPI Stop
-	ret = PAPI_stop(EventSet, values);
-  		if (ret != PAPI_OK) cout << "ERRO: Stop PAPI" << endl;
-
-	// PAPI Remove
-	ret = PAPI_reset( EventSet );
-	if ( ret != PAPI_OK )
-		cout << "FAIL reset" << endl; 
-
-	ret = PAPI_remove_event( EventSet, PAPI_L1_DCM );
-	if ( ret != PAPI_OK )
-		cout << "FAIL remove event" << endl; 
-
-	ret = PAPI_remove_event( EventSet, PAPI_L2_DCM );
-	if ( ret != PAPI_OK )
-		cout << "FAIL remove event" << endl; 
-
-	ret = PAPI_destroy_eventset( &EventSet );
-	if ( ret != PAPI_OK )
-		cout << "FAIL destroy" << endl;
-
 }
