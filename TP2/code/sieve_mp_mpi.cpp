@@ -1,6 +1,10 @@
 #include <iostream>
+#include <stdio.h>
 #include <time.h>
+#include <iomanip>
 #include <bits/stdc++.h>
+#include <cstdlib>
+#include <string>
 #include <omp.h>
 #include "mpi.h"
 
