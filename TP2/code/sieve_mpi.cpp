@@ -107,8 +107,7 @@ int main(int argc, char* argv[]) {
         fin_time = clock();
         sprintf(st, "Execution Time: %3.3f seconds\n", (double)(fin_time - init_time) / CLOCKS_PER_SEC);
         cout << st;
+		cout << endl << "Number of primes: " << t_primes << endl;
 	}
-
-	delete [] nums;
 	MPI_Finalize();
 }

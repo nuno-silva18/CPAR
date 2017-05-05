@@ -116,8 +116,8 @@ int main(int argc, char* argv[]) {
         fin_time = omp_get_wtime();
         sprintf(st, "Execution Time: %3.3f seconds\n", (fin_time - init_time));
         cout << st;
+		cout << endl << "Number of primes: " << t_primes << endl;
 	}
-
-	delete [] nums;
+	
 	MPI_Finalize();
 }
