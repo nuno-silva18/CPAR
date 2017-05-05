@@ -17,16 +17,6 @@ using namespace std;
 
 #define SYSTEMTIME clock_t
 
-void pPrimes(vector<bool> &nums) {
-	cout << "The prime numbers in the range are: " << endl;
-
-	for(long long i = 0; i < nums.size(); i++) {
-		if(nums[i] == true)
-			cout << " " << (i+2) << " ";
-	}
-	cout << endl;
-}
-
 long long cPrimes(vector<bool> &nums) {
     long long count = 0;
     
@@ -116,7 +106,7 @@ int main(int argc, char* argv[]) {
 	if (rank == root) {
         fin_time = clock();
         printf("Execution Time: %3.3f seconds\n", (double)(fin_time - init_time) / CLOCKS_PER_SEC);
-        cout << b_primes << " primes" << endl;
+        cout << b_primes << " primes." << endl;
 	}
 
 	MPI_Finalize();

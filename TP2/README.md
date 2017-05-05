@@ -21,16 +21,22 @@ Repository for the Parallel Computing class at FEUP.
 
 * Assuming everything went smoothly, you should now have access to the remote PC through SSH! Keep in mind you can repeat these steps for multiple different computers. If you're faced with any errors running these commands, or want to try accessing multiple computers remotely without being asked for a password, you can [check out this link](https://www.open-mpi.org/faq/?category=rsh#ssh-keys).
 
-* Next up is the compilation of your OpenMPI program: ```mpiCC.openmpi -o prog prog.cpp```.
+* You now need to install OpenMPI. To do so, download the tar.gz from [this link](https://www.open-mpi.org/software/ompi/v2.1/) and run the following commands in the extracted folder:
+    * ```./configure```
+    * ```make```
+    * ```sudo make install```
+    * ```sudo ldconfig```
+
+* Next up is the compilation of your OpenMPI program: ```mpic++ -o prog prog.cpp```.
 
 * Afterwards, create a new file called hostfile (with no extension) that contains a list of the PCs where you want to run your program (e.g. hostfile will have lines of the type: 192.168.XXX.XXX cpu=4, where CPU is the number of cores you want operating on the program).
 
-* Finally, run the program with OpenMPI through the command: ```mpirun --hostfile hostfile -np 4 prog```, where np is the number of copies you want to run of the program on the given cores.
+* Finally, run the program with OpenMPI through the command: ```mpirun --hostfile hostfile -np np prog```, where np is the number of copies you want to run of the program on the given cores.
 
 * And that's it. You're ready to carry CPAR's second project!
 
 ### Project hand-in
 
-* Article
+* [Article](https://www.overleaf.com/9190095ckskhdhznhzs#/33088235/)
 
-* Experiment Results
+* [Experiment Results](https://docs.google.com/spreadsheets/d/1pgGXr7yoRWb-l0vxxxXG16vMaK7ixzSo3wRRqMmuiVI/edit?usp=sharing)

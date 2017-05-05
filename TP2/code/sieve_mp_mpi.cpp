@@ -42,7 +42,7 @@ long long cPrimes(vector<bool> &nums) {
 
 int main(int argc, char* argv[]) {
 
-    SYSTEMTIME init_time, fin_time;
+    double init_time, fin_time;
     int rank, size, root = 0;
 
     MPI_Init(&argc, &argv);
@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     // Parse input
-    if(argc != 2) {
+    if(argc != 3) {
         cerr << "Invalid input: Expected exponent." << endl;
         return 1;
     }
@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
     long long n = pow(2,exp);
 
     if (rank == root) {
-        init_time = clock();
+        init_time = omp_get_wtime();
     }
 
     long long block_size = BLOCK_SIZE(rank, n-1, size);
@@ -124,9 +124,9 @@ int main(int argc, char* argv[]) {
     MPI_Reduce(&b_primes, &t_primes, 1, MPI_INT, MPI_SUM, root, MPI_COMM_WORLD);
 
     if (rank == root) {
-        fin_time = clock();
-        printf("Execution Time: %3.3f seconds\n", (double)(fin_time - init_time) / CLOCKS_PER_SEC);
-        cout << b_primes << " primes" << endl;
+        fin_time = omp_get_wtime();
+        printf("Execution Time: %3.3f seconds\n", (fin_time - init_time));
+        cout << b_primes << " primes." << endl;
     }
 
     MPI_Finalize();
