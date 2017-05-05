@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <time.h>
 #include <iomanip>
-#include <bits/stdc++.h>
+#include <vector>
+#include <cmath>
 #include <cstdlib>
 #include <string>
 #include "mpi.h"
@@ -15,6 +16,16 @@
 using namespace std;
 
 #define SYSTEMTIME clock_t
+
+void pPrimes(vector<bool> &nums) {
+	cout << "The prime numbers in the range are: " << endl;
+
+	for(long long i = 0; i < nums.size(); i++) {
+		if(nums[i] == true)
+			cout << " " << (i+2) << " ";
+	}
+	cout << endl;
+}
 
 long long cPrimes(vector<bool> &nums) {
     long long count = 0;
@@ -50,7 +61,7 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	long long n = pow(2,exponent);
+	long long n = pow(2,exp);
 
 	if (rank == root) {
 		init_time = clock();
@@ -86,7 +97,6 @@ int main(int argc, char* argv[]) {
 
 		// Set k as the smallest urmarked number > k:
 		if (rank == root) {
-
 			for(long long i = k + 1; i < block_high; i++) {
 				if (nums[i - block_low]) {
 					k = i;
@@ -99,15 +109,15 @@ int main(int argc, char* argv[]) {
 	}
 
 	int t_primes = 0;
-	int b_primes = cPrimes(nums, block_size);
+	int b_primes = cPrimes(nums);
 
 	MPI_Reduce(&b_primes, &t_primes, 1, MPI_INT, MPI_SUM, root, MPI_COMM_WORLD);
 
 	if (rank == root) {
         fin_time = clock();
-        sprintf(st, "Execution Time: %3.3f seconds\n", (double)(fin_time - init_time) / CLOCKS_PER_SEC);
-        cout << st;
-		cout << endl << "Number of primes: " << t_primes << endl;
+        printf("Execution Time: %3.3f seconds\n", (double)(fin_time - init_time) / CLOCKS_PER_SEC);
+        cout << b_primes << " primes" << endl;
 	}
+
 	MPI_Finalize();
 }

@@ -3,15 +3,16 @@
 #include <omp.h>
 #include <iomanip>
 #include <time.h>
-#include <bits/stdc++.h>
+#include <vector>
 #include <cstdlib>
+#include <cmath>
 #include <string>
 
 using namespace std;
 
 #define SYSTEMTIME clock_t
 
-long long pPrimes(vector<bool> &nums) {
+void pPrimes(vector<bool> &nums) {
     cout << "The prime numbers in the range are: " << endl;
 
     for(long long i = 0; i < nums.size(); i++) {
