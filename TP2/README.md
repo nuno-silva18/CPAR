@@ -34,9 +34,3 @@ Repository for the Parallel Computing class at FEUP.
 * Finally, run the program with OpenMPI through the command: ```mpirun --hostfile hostfile -np np prog```, where np is the number of copies you want to run of the program on the given cores.
 
 * And that's it. You're ready to carry CPAR's second project!
-
-### Project hand-in
-
-* [Article](https://www.overleaf.com/9190095ckskhdhznhzs#/33088235/)
-
-* [Experiment Results](https://docs.google.com/spreadsheets/d/1pgGXr7yoRWb-l0vxxxXG16vMaK7ixzSo3wRRqMmuiVI/edit?usp=sharing)
